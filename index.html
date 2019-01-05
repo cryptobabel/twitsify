@@ -1,0 +1,259 @@
+<html>
+    <head>
+        <title>Twitter search generator</title>
+        <style>
+
+        #twithere {
+            width: 90%;
+            font-size: 120%;
+            color: #727272;
+        }
+        #userhere {
+            width: 90%;
+            font-size: 120%;
+            color: #727272;
+        }
+        #nearhere {
+            width: 90%;
+            font-size: 120%;
+            color: #727272;
+        }
+        #beforehere {
+            width: 90%;
+            font-size: 120%;
+            color: #727272;
+        }
+        #sincehere {
+            width: 90%;
+            font-size: 120%;
+            color: #727272;
+        }
+        #excludehere {
+            width: 90%;
+            font-size: 120%;
+            color: #727272;
+        }
+        #langhere {
+            width: 90%;
+            font-size: 120%;
+            color: #727272;
+        }
+
+        #urlhere {
+            width: 90%;
+            font-size: 120%;
+            text-decoration: underline;
+            color: #727272;
+        }
+
+        html body {
+          background: #2193b0; /* fallback for old browsers */
+          background: -webkit-linear-gradient(to right, #2193b0, #6dd5ed); /* Chrome 10-25, Safari 5.1-6 */
+          background: linear-gradient(to right, #2193b0, #6dd5ed);
+          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2193b0', endColorstr='#6dd5ed',GradientType=0 ); /* IE6-9 */
+        }
+
+        html body center {
+            font-size: 100%;
+            line-height: 90%;
+            padding-bottom: 1%;
+            padding-top: 1%;
+            margin-right: 30%;
+            margin-left: 30%;
+            -webkit-box-shadow: -7px 9px 48px 4px rgba(0,0,0,0.69);
+            box-shadow: -7px 9px 48px 4px rgba(0,0,0,0.69);
+        }
+
+        #tut {
+            font-size: 150%;
+            color: #212121;
+            font-family: Lato;
+        }
+
+        #tutUrl {
+            font-size: 150%;
+            color: #212121;
+            font-family: Lato;
+            margin-top: 20%
+        }
+
+        html body center {
+            border-radius: 30px;
+        }
+
+        center {
+            margin-top: 20%
+        }
+        </style>
+        <script>
+          function copyit() {
+            try {
+              var successful = document.execCommand('copy');
+              var msg = successful ? 'Link successfully copied to clipboard' : 'JavaScript copy not supported -- Please use Ctrl-C to copy the text.';
+              document.getElementById('copymsg').innerHTML = msg;
+            } catch (err) {
+              console.log('unable to copy using document.execCommand(copy)');
+            }
+          }
+        </script>
+    </head>
+    <body>
+        <center>
+            <div id="tut">What are you searching for?</div>
+            <br>
+            <input type="text" id="twithere">
+            <br>
+            <br>
+            <div id="tut">From a specific user? (Twitter handle)</div>
+            <br>
+            <input type="text" id="userhere">
+            <br>
+            <br>
+            <div id="tut">Near a city, state or country? (San Fransico California)</div>
+            <br>
+            <input type="text" id="nearhere">
+            <br>
+            <br>
+            <div id="tut">Before a specific date? (2019-01-04)</div>
+            <br>
+            <input type="text" id="beforehere">
+            <br>
+            <br>
+            <div id="tut">Since a specific date? (2019-01-03)</div>
+            <br>
+            <input type="text" id="sincehere">
+            <br>
+            <br>
+            <div id="tut">Exclude a specific word?</div>
+            <br>
+            <input type="text" id="excludehere">
+            <br>
+            <br>
+            <div id="tut">Which language? (en)</div>
+            <br>
+            <input type="text" id="langhere">
+            <br>
+            <br>
+            <div id="tutUrl">Share this link to search twitter!</div>
+            <br>
+            <input type="text" id="urlhere" onClick="this.select();copyit();" readonly>
+            <script>
+                var searchval = "";
+                var userval = "";
+                var locationval = "";
+                var beforeval = "";
+                var sinceval = "";
+                var excludeval = "";
+                var languageval = "";
+                document.getElementById("twithere").onkeyup = function() {
+                   if(this.value.length != 0) {
+                     searchval = this.value;
+                   } else {
+                     searchval = "";
+                   }
+                   setUrl();
+                 }
+                 document.getElementById("userhere").onkeyup = function() {
+                    if(this.value.length != 0) {
+                      userval = this.value;
+                    } else {
+                      userval = "";
+                    }
+                    setUrl();
+                 }
+                 document.getElementById("nearhere").onkeyup = function() {
+                    if(this.value.length != 0) {
+                      locationval = this.value;
+                    } else {
+                      locationval = "";
+                    }
+                    setUrl();
+                 }
+                 document.getElementById("beforehere").onkeyup = function() {
+                    if(this.value.length != 0) {
+                      beforeval = this.value;
+                    } else {
+                      beforeval = "";
+                    }
+                    setUrl();
+                 }
+                 document.getElementById("sincehere").onkeyup = function() {
+                    if(this.value.length != 0) {
+                      sinceval = this.value;
+                    } else {
+                      sinceval = "";
+                    }
+                    setUrl();
+                 }
+                 document.getElementById("excludehere").onkeyup = function() {
+                    if(this.value.length != 0) {
+                      excludeval = this.value;
+                    } else {
+                      excludeval = "";
+                    }
+                    setUrl();
+                 }
+                 document.getElementById("langhere").onkeyup = function() {
+                    if(this.value.length != 0) {
+                      languageval = this.value;
+                    } else {
+                      languageval = "";
+                    }
+                    setUrl();
+                 }
+
+                 function setUrl() {
+                   var qBase = "http://twitsify.com/go.html?q=";
+                   var qStr = "";
+                   if (searchval.length != 0) {
+                     qStr = qStr + encodeURIComponent(searchval);
+                   }
+                   if (userval.length != 0) {
+                     if (qStr.length != 0) {
+                       qStr = qStr + "%20";
+                     }
+                     qStr = qStr + encodeURIComponent("from:") + encodeURIComponent(userval);
+                   }
+                   if (locationval.length != 0) {
+                     if (qStr.length != 0) {
+                       qStr = qStr + "%20";
+                     }
+                     qStr = qStr + encodeURIComponent("near:") + "%22" + encodeURIComponent(locationval) + "%22";
+                   }
+                   if (beforeval.length != 0) {
+                     if (qStr.length != 0) {
+                       qStr = qStr + "%20";
+                     }
+                     qStr = qStr + encodeURIComponent("until:") + encodeURIComponent(beforeval);
+                   }
+                   if (sinceval.length != 0) {
+                     if (qStr.length != 0) {
+                       qStr = qStr + "%20";
+                     }
+                     qStr = qStr + encodeURIComponent("since:") + encodeURIComponent(sinceval);
+                   }
+                   if (excludeval.length != 0) {
+                     if (qStr.length != 0) {
+                       qStr = qStr + "%20";
+                     }
+                     qStr = qStr + encodeURIComponent("-") + encodeURIComponent(excludeval);
+                   }
+                   if (languageval.length != 0) {
+                     if (qStr.length != 0) {
+                       qStr = qStr + "%20";
+                     }
+                     qStr = qStr + encodeURIComponent("lang:") + encodeURIComponent(languageval);
+                   }
+
+                   if (qStr.length != 0) {
+                     document.getElementById("urlhere").value = qBase + qStr;
+                   } else {
+                     document.getElementById("urlhere").value = "";
+                   }
+                   qStr = "";
+                 }
+              </script>
+            <p><div id="copymsg">Click the link to copy it to your clipboard</div></p>
+        </center>
+    </body>
+</html>
